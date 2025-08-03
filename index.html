@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake Ludo</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <div class="title"> Snake Ludo <i class="fa-solid fa-dice-five"></i></div>
+    <div class="container">
+        <div class="left">
+            <div class="winner">
+                <img src="images/winner.png" alt="winner image">
+            </div>
+            <div class="bg-image">
+                <img src="images/snake-ladder.png" alt="Background Image">
+            </div>
+            <div id="board"></div>
+        </div>
+
+        <div class="right">
+            <div id="scoreline">
+                <div>Player: <span id="player-score">0</span></div>
+                <div>Machine: <span id="ai-score">0</span></div>
+            </div>
+            <div id="dice-container">
+                <div id="message"></div>
+                <div id="dice">1</div>
+                <button id="roll-btn">Roll Dice</button>
+            </div>
+            <button id="play-again-btn" style="display: none;" onclick="playAgain()">Play Again</button>
+        </div>
+    </div>
+
+
+    <script src="js/scripts.js"></script>
+</body>
+</html>
