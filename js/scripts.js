@@ -93,52 +93,82 @@
   }
 
   // Move player or AI
-//   function movePlayer(roll) {
-//       if (currentTurn === 'player') {
-//           playerPos = Math.min(playerPos + roll, 100);
-//           if (snakes[playerPos]) {
-//               message.textContent = `Player hit a snake! Slid from ${playerPos} to ${snakes[playerPos]}.`;
-//               playerPos = snakes[playerPos];
-//           } else if (ladders[playerPos]) {
-//               message.textContent = `Player climbed a ladder from ${playerPos} to ${ladders[playerPos]}!`;
-//               playerPos = ladders[playerPos];
-//           } else {
-//               message.textContent = `Player moved to ${playerPos}.`;
-//           }
-//           updatePositions();
-//           if (playerPos === 100) {
-//               message.textContent = 'Player wins!';
-//               rollBtn.disabled = true;
-//               return;
-//           }
-//           currentTurn = 'ai';
-//           setTimeout(aiTurn, 2000); // Delay before AI turn
-//       } else {
-//           aiPos = Math.min(aiPos + roll, 100);
-//           if (snakes[aiPos]) {
-//               message.textContent = `AI hit a snake! Slid from ${aiPos} to ${snakes[aiPos]}.`;
-//               aiPos = snakes[aiPos];
-//           } else if (ladders[aiPos]) {
-//               message.textContent = `AI climbed a ladder from ${aiPos} to ${ladders[aiPos]}!`;
-//               aiPos = ladders[aiPos];
-//           } else {
-//               message.textContent = `AI moved to ${aiPos}.`;
-//           }
-//           updatePositions();
-//           if (aiPos === 100) {
-//               message.textContent = 'AI wins!';
-//               rollBtn.disabled = true;
-//               return;
-//           }
-//           currentTurn = 'player';
-//           setTimeout(() => {
-//               rollBtn.disabled = false;
-//           }, 1000); // Delay before enabling button
-//       }
-//   }
+// function movePlayer(roll) {
+//     if (currentTurn === 'player') {
+//         // Only move if sum <= 100
+//         if (playerPos + roll <= 100) {
+//             playerPos += roll;
+
+//             if (snakes[playerPos]) {
+//                 message.textContent = `Player hit a snake! Slid from ${playerPos} to ${snakes[playerPos]}.`;
+//                 playerPos = snakes[playerPos];
+//             } else if (ladders[playerPos]) {
+//                 message.textContent = `Player climbed a ladder from ${playerPos} to ${ladders[playerPos]}!`;
+//                 playerPos = ladders[playerPos];
+//             } else {
+//                 message.textContent = `Player moved to ${playerPos}.`;
+//             }
+//         } else {
+//             message.textContent = `Player needs exact roll to reach 100! Stayed at ${playerPos}.`;
+//         }
+
+//         updatePositions();
+
+//         if (playerPos === 100) {
+//             message.textContent = 'Player wins!';
+//             rollBtn.disabled = true;
+//             document.getElementById('play-again-btn').style.display = 'block'; // Show play again button
+//             return;
+//         }
+
+//         currentTurn = 'ai';
+//         setTimeout(aiTurn, 2000); // Delay before AI turn
+
+//     } else {
+//         // Only move if sum <= 100
+//         if (aiPos + roll <= 100) {
+//             aiPos += roll;
+
+//             if (snakes[aiPos]) {
+//                 message.textContent = `AI hit a snake! Slid from ${aiPos} to ${snakes[aiPos]}.`;
+//                 aiPos = snakes[aiPos];
+//             } else if (ladders[aiPos]) {
+//                 message.textContent = `AI climbed a ladder from ${aiPos} to ${ladders[aiPos]}!`;
+//                 aiPos = ladders[aiPos];
+//             } else {
+//                 message.textContent = `AI moved to ${aiPos}.`;
+//             }
+//         } else {
+//             message.textContent = `AI needs exact roll to reach 100! Stayed at ${aiPos}.`;
+//         }
+
+//         updatePositions();
+
+//         if (aiPos === 100) {
+//             message.textContent = 'AI wins!';
+//             rollBtn.disabled = true;
+//             document.getElementById('play-again-btn').style.display = 'block'; // Show play again button
+//             return;
+//         }
+
+//         currentTurn = 'player';
+//         setTimeout(() => {
+//             rollBtn.disabled = false;
+//         }, 1000); // Delay before enabling button
+//     }
+// }
 function movePlayer(roll) {
     if (currentTurn === 'player') {
-        // Only move if sum <= 100
+        // If player hasn't started yet, require roll = 1
+        if (playerPos === 0 && roll !== 1) {
+            message.textContent = `Player needs 1 to start the game! Stayed at 0.`;
+            updatePositions();
+            currentTurn = 'ai';
+            setTimeout(aiTurn, 2000);
+            return;
+        }
+
+        // Normal movement logic with exact 100 check
         if (playerPos + roll <= 100) {
             playerPos += roll;
 
@@ -165,10 +195,21 @@ function movePlayer(roll) {
         }
 
         currentTurn = 'ai';
-        setTimeout(aiTurn, 2000); // Delay before AI turn
+        setTimeout(aiTurn, 2000);
 
     } else {
-        // Only move if sum <= 100
+        // If AI hasn't started yet, require roll = 1
+        if (aiPos === 0 && roll !== 1) {
+            message.textContent = `AI needs 1 to start the game! Stayed at 0.`;
+            updatePositions();
+            currentTurn = 'player';
+            setTimeout(() => {
+                rollBtn.disabled = false;
+            }, 1000);
+            return;
+        }
+
+        // Normal movement logic with exact 100 check
         if (aiPos + roll <= 100) {
             aiPos += roll;
 
@@ -197,9 +238,11 @@ function movePlayer(roll) {
         currentTurn = 'player';
         setTimeout(() => {
             rollBtn.disabled = false;
-        }, 1000); // Delay before enabling button
+        }, 1000);
     }
 }
+
+
 
 function playAgain() {
     playerPos = 0;
