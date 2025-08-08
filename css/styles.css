@@ -75,7 +75,6 @@ body {
     gap: 4px;
     background-color: #000000;
 }
-
 .bg-image {
     position: absolute;
     z-index: 10;
@@ -86,10 +85,6 @@ body {
     width: 75px !important;
     margin-top: -20px;
 }
-
-
-
-
 .tile {
     width: 75px;
     height: 75px;
@@ -107,24 +102,67 @@ body {
     -2px  2px 0 black,
      2px  2px 0 black;
 }
+/* Human Piece (Player) */
 .player {
-    width: 40px;
-    height: 40px;
-    background-color: blue;
-    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    background: radial-gradient(circle at 30% 30%, #4da6ff, #003366);
+    border-radius: 50%; /* head */
     position: absolute;
+    top: 15px; /* shift upward */
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 12;
     transition: transform 0.1s linear;
 }
+.player::before {
+    content: "";
+    position: absolute;
+    top: 20px; /* body below head */
+    left: -4px;
+    width: 30px;
+    height: 18px;
+    background: linear-gradient(to bottom, #4da6ff, #002244);
+    border-radius: 6px;
+}
+
+/* Robot Piece (AI) */
 .ai {
-    width: 40px;
-    height: 40px;
-    background-color: red;
-    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    background: radial-gradient(circle at 30% 30%, #ff4d4d, #660000);
+    border-radius: 20% / 40%; /* robot head shape */
     position: absolute;
+    top: 15px; /* shift upward */
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 12;
     transition: transform 0.1s linear;
+    border: 2px solid #ccc;
 }
+.ai::before {
+    content: "";
+    position: absolute;
+    top: 20px; /* robot body */
+    left: -4px;
+    width: 30px;
+    height: 18px;
+    background: linear-gradient(to bottom, #ff4d4d, #330000);
+    border-radius: 4px;
+}
+.ai::after {
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 4px;
+    height: 4px;
+    background: white; /* left eye */
+    box-shadow: 10px 0 white; /* right eye */
+    border-radius: 50%;
+}
+
+
 .snake {
     background-color: #ff5555 !important;
     font-weight: bold;
@@ -171,7 +209,7 @@ body {
     75% { transform: rotate(270deg) scale(1.2); background-color: #f0f0f0; }
     100% { transform: rotate(360deg) scale(1); background-color: white; }
 }
-#roll-btn, #play-again-btn {
+#roll-btn, #play-again-btn, #restart-btn {
     margin-top: 10px;
     padding: 10px 20px;
     font-size: 20px;
@@ -191,4 +229,74 @@ body {
     color: #ffffff;
     height: 100px;
 }
+/* Popup styling */
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+.popup-content {
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 20px 30px;
+    text-align: center;
+    min-width: 800px;
+    border-radius: 50%;
+}
+.popup-style1 {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 20px 30px;
+    border-radius: 10px;
+    text-align: center;
+    min-width: 700px;
+    border-radius: 50%;
+}
+.popup-style2 {
+    background-color: rgb(51, 51, 70, 0.9);
+    padding: 20px 30px;
+    border-radius: 10px;
+    text-align: center;
+    min-width: 600px;
+    border-radius: 50%;
+}
+.popup-content h1 {
+    margin-bottom: 15px;
+    color: #ffffff;
+    font-size: 30px;
+}
+.popup-content p {
+    color: #ffffff;
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+.popup-content .dev {
+    color: #ffffff;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
 
+.popup-content input {
+    width: 80%;
+    height: 30px;
+    padding: 8px;
+    font-size: 26px;
+    color: #ffffff;
+    background-color: rgb(51, 51, 70, 0.7);
+    margin-bottom: 10px;
+}
+.popup-content button {
+    width: 40%;
+    padding: 12px 20px;
+    background: #4CAF50;
+    font-size: 20px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
